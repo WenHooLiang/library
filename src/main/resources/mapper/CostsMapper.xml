@@ -244,6 +244,7 @@
   <resultMap id="CostsVo" type="com.qf.entity.vo.CostsVo">
     <id column="cost_id" jdbcType="INTEGER" property="costId"/>
     <result column="cost_type" property="costType" jdbcType="TINYINT" />
+    <result column="reader_id" property="readerId" jdbcType="INTEGER" />
     <result column="numeric" property="numeric" jdbcType="REAL" />
     <result column="pay_type" property="payType" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -269,10 +270,10 @@
     </association>
   </resultMap>
   <select id="selectAllVo" resultMap="CostsVo">
-    select cost_id,r.reader_name,cost_type,`numeric`,pay_type,c.create_time from tbl_costs c inner join tbl_readers r on c.reader_id = r.reader_id where c.is_delete = 1
+    select cost_id,c.reader_id,r.reader_name,cost_type,`numeric`,pay_type,c.create_time from tbl_costs c inner join tbl_readers r on c.reader_id = r.reader_id where c.is_delete = 1
   </select>
 
   <select id="selectByPrimaryKeyVo" resultMap="CostsVo" parameterType="java.lang.Integer">
-    select cost_id,r.reader_name,cost_type,`numeric`,pay_type,c.create_time from tbl_costs c inner join tbl_readers r on c.reader_id = r.reader_id where c.cost_id=#{costId} and c.is_delete = 1
+    select cost_id,c.reader_id,r.reader_name,cost_type,`numeric`,pay_type,c.create_time from tbl_costs c inner join tbl_readers r on c.reader_id = r.reader_id where c.cost_id=#{costId} and c.is_delete = 1
   </select>
 </mapper>

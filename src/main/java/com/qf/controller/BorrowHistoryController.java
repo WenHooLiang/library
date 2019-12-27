@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.Random;
-
 /**
  * @author: JunJie
  * @classBelongTo: library.com.qf.controller
@@ -40,9 +37,9 @@ public class BorrowHistoryController extends Base {
     @PostMapping("/insertBorrowHistory")
     public State<Object> insertBorrowHistory(BorrowHistory borrowHistory) {
         if (borrowHistory != null) {
-            borrowHistory.setBorrowTime(new Date(System.currentTimeMillis() - new Random().nextInt(10) * 24 * 60));
-            borrowHistory.setRepayTime(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000));
-            return borrowHistoryService.insertBorrowHistory(borrowHistory) > 0 ?
+//            borrowHistory.setBorrowTime(new Date(System.currentTimeMillis() - new Random().nextInt(10) * 24 * 60));
+//            borrowHistory.setRepayTime(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000));
+       return borrowHistoryService.insertBorrowHistory(borrowHistory) > 0 ?
                     packaging(StateCode.SUCCESS, "新借阅历史" + ChangliangUtil.INSERTSUCCESS, null)
                     : packaging(StateCode.FAIL, "新借阅历史" + ChangliangUtil.INSERTFAIL, null);
         }

@@ -2,8 +2,9 @@ package com.qf.mapper;
 
 import com.qf.entity.Borrows;
 import com.qf.entity.BorrowsExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BorrowsMapper {
     int countByExample(BorrowsExample example);
@@ -27,4 +28,6 @@ public interface BorrowsMapper {
     int updateByPrimaryKeySelective(Borrows record);
 
     int updateByPrimaryKey(Borrows record);
+
+    int checkBooksNumber(Integer bookStateId);
 }

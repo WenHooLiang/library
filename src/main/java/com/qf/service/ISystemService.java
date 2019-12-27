@@ -14,7 +14,7 @@ public interface ISystemService {
     Integer updateSystem(String picName,System system);
 
     //查询系统
-    List<System> selectSystemList();
+    Page<System> selectSystemList(Integer currentPage, Integer pageSize);
 
     //修改系统配置不更改图片
     Integer updateSystemNoImg(System system);

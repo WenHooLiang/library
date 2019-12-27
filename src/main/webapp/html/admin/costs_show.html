@@ -160,7 +160,7 @@
                 success:function (data) {
                     if (data.state == "SUCCESS") {
                         alert(data.message);
-                        location.href = "cost_show.html";
+                        location.href = "costs_show.html";
                     }else {
                         alert(data.message);
                     }
@@ -169,6 +169,7 @@
         }
 
         function deleteCosts() {
+            debugger;
             var ckb = $(":input[name=ckb]");
             var CostIds = new Array(ckb.length);
             var j = 0;
@@ -180,7 +181,7 @@
             }
             $.ajax({
                 type: "DELETE",
-                url: "/library/costs/deleteCostsByCostsId/ids/"+CostIds,
+                url: "/library/costs/deleteAll?costsId="+CostIds,
                 data:{
 
                 },
@@ -188,7 +189,7 @@
                 success: function (data) {
                     if (data.state == "SUCCESS") {
                         alert(data.message);
-                        location.href = "cost_show.html";
+                        location.href = "costs_show.html";
                     } else {
                         alert(data.message);
                     }
@@ -312,6 +313,8 @@
                     $("#tbody").empty();
                     $("#paging").empty();
                     if (data.state == "SUCCESS") {
+                        debugger
+                        console.log(data.data.list.length);
                         $.each(data.data.list, function (index, value) {
                             var $tr = $("<tr></tr>");
                             $tr.append("<input id='costId"+index+"' name='costId' type='hidden' value= '"+value.costId+"' > ");

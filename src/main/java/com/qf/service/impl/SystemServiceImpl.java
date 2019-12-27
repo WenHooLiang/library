@@ -39,15 +39,40 @@ public class SystemServiceImpl implements ISystemService {
         int i = systemMapper.updateByExampleSelective(system, systemExample);
         return i;
     }
-
-    //查询系统表
-    @Override
-    public List<System> selectSystemList() {
+   /*@Override
+    public Integer updateSystem(System system) {
         SystemExample systemExample = new SystemExample();
         SystemExample.Criteria criteria = systemExample.createCriteria();
-        criteria.andSysIdEqualTo(1).andIsDeleteEqualTo(1);
-        List<System> systems = systemMapper.selectByExample(systemExample);
-        return systems;
+        criteria.andSysIdEqualTo(1);
+        int i = systemMapper.updateByExampleSelective(system, systemExample);
+        return i;
+    }*/
+
+    //查询系统表
+    /*@Override
+    public List<System> selectSystemList() {
+        SystemExample systemExample = new SystemExample();
+        systemExample.createCriteria().andIsDeleteEqualTo(1);
+        return systemMapper.selectByExample(systemExample);
+    }*/
+
+    @Override
+    public Page<System> selectSystemList(Integer currentPage, Integer pageSize) {
+        if (StringUtils.isEmpty(pageSize)) {
+            pageSize = systemMapper.getPageLine();
+        }
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+        PageHelper.startPage(currentPage,pageSize);
+        SystemExample systemExample = new SystemExample();
+        systemExample.createCriteria().andIsDeleteEqualTo(1);
+        List<System> systemList = systemMapper.selectByExample(systemExample);
+        int totalCount = systemMapper.countByExample(systemExample);
+
+        Page<System> page = new Page<>(currentPage, pageSize, totalCount);
+        page.setList(systemList);
+        return page;
     }
 
     @Override

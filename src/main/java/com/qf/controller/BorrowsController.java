@@ -38,7 +38,7 @@ public class BorrowsController extends Base {
      */
     @PostMapping("/insertBorrows")
     public State<Object> insertBorrows(Borrows borrows) {
-        if (borrows != null) {
+        if (borrows != null && borrowsService.haveBooks(borrows.getBookStateId())) {
             borrows.setBorrowTime(new Date(System.currentTimeMillis()));
             return borrowsService.insertBorrows(borrows) > 0 ?
                     packaging(StateCode.SUCCESS, "新借阅情况" + ChangliangUtil.INSERTSUCCESS, null)
@@ -87,15 +87,15 @@ public class BorrowsController extends Base {
      */
     @DeleteMapping("/deleteBatchByBorrowId")
     public State<Object> deleteBatchByBorrowId(String borrowIds) {
-        if (StringUtils.isEmpty(borrowIds)){
-            return packaging(StateCode.FAIL,"删除失败",null);
+        if (StringUtils.isEmpty(borrowIds)) {
+            return packaging(StateCode.FAIL, "删除失败", null);
         }
         String[] nums = borrowIds.split(",");
 
         Integer[] ints = new Integer[nums.length];
 
         for (int i = 0; i < nums.length; i++) {
-            ints[i]= Integer.parseInt(nums[i]);
+            ints[i] = Integer.parseInt(nums[i]);
         }
         if (ints.length > 0) {
             return borrowsService.deleteBatchByBorrowId(ints) > 0 ?

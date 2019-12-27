@@ -25,6 +25,10 @@ public class BorrowsServiceImpl implements IBorrowsService {
     @Autowired
     BorrowsMapper borrowsMapper;
 
+    @Override
+    public Boolean haveBooks(Integer bookStateId) {
+        return borrowsMapper.checkBooksNumber(bookStateId) > 0;
+    }
 
     /**
      * 插入新的借阅记录
@@ -68,7 +72,7 @@ public class BorrowsServiceImpl implements IBorrowsService {
     @Override
     public Integer deleteBatchByBorrowId(Integer[] borrowIds) {
         int deleteCount = 0;
-        if (!StringUtils.isEmpty(borrowIds) && borrowIds.length>0) {
+        if (!StringUtils.isEmpty(borrowIds) && borrowIds.length > 0) {
             for (Integer borrowId : borrowIds) {
                 BorrowsExample borrowsExample = new BorrowsExample();
                 borrowsExample.createCriteria().andIsDeleteEqualTo(1).andBorrowIdEqualTo(borrowId);
@@ -120,7 +124,7 @@ public class BorrowsServiceImpl implements IBorrowsService {
     }
 
     @Override
-    public Page<Borrows> selectBorrowsByBookStateId(Integer bookStateId , Integer currentPage, Integer pageSize) {
+    public Page<Borrows> selectBorrowsByBookStateId(Integer bookStateId, Integer currentPage, Integer pageSize) {
         if (bookStateId != null && bookStateId > 0) {
             PageHelper.startPage(currentPage, pageSize);
 

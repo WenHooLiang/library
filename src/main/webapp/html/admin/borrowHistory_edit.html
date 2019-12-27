@@ -43,15 +43,14 @@
         }
 
         function update(val) {
-            debugger;
             var historyId = val;
             var fine = $("#fine").val();
             var renew = $(".renew0:checked").val();
             var overdue = $(".overdue0:checked").val();
             var readerId = $("#readerId").val();
             var bookId = $("#bookId").val();
-            var borrowTime = $("#borrowTime").val();
-            var repayTime = $("#repayTime").val();
+
+
 
             var data = {
                 historyId: historyId,
@@ -60,8 +59,7 @@
                 readerId: readerId,
                 bookId: bookId,
                 fine: fine,
-                // borrowTime :borrowTime,
-                // repayTime:repayTime,
+
             };
 
             $.ajax({
@@ -153,31 +151,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="twoBox">
-                        <div class="leftbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <span class="ios-tip-name">借出时间：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input id="borrowTime" type="datetime-local" class="ios-input">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rightbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <span class="ios-tip-name">归还时间：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input id="repayTime" type="datetime-local" class="ios-input">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <div class="twoBox">
                         <div class="leftbox">

@@ -12,6 +12,14 @@ import com.qf.util.Page;
  */
 public interface IBorrowsService {
     /**
+     * 判断书本余量
+     *
+     * @param bookId
+     * @return
+     */
+    Boolean haveBooks(Integer bookId);
+
+    /**
      * 插入新的借阅记录
      *
      * @param borrows 带有数据的 borrows 对象
@@ -76,7 +84,7 @@ public interface IBorrowsService {
      * @param pageSize
      * @return
      */
-    Page<Borrows>  selectBorrowsByBookStateId(Integer bookStateId, Integer currentPage, Integer pageSize);
+    Page<Borrows> selectBorrowsByBookStateId(Integer bookStateId, Integer currentPage, Integer pageSize);
 
     /**
      * 查询全部借阅记录

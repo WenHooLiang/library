@@ -273,4 +273,10 @@
       is_delete = #{isDelete,jdbcType=INTEGER}
     where borrow_id = #{borrowId,jdbcType=INTEGER}
   </update>
+  <select id="checkBooksNumber"  parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    SELECT number FROM tbl_books
+    WHERE book_id =
+    (SELECT book_id FROM tbl_book_states WHERE book_state_id = #{bookStateId,jdbcType=INTEGER})
+    AND  is_delete = 1
+  </select>
 </mapper>

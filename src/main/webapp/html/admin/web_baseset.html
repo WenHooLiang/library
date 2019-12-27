@@ -6,176 +6,347 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>APP</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link href="../../asserts/plugins/Bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="../../asserts/plugins/Bootstrap/js/bootstrap.js"></script>
+
+    <script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.js"></script>
+    <link href="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/language/zh_CN.js"></script>
+    <title>library</title>
     <link rel="stylesheet" href="./css/component.css">
     <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="./css/font-awesome.min.css">
     <script src="./js/JQuery2.1.4.js"></script>
 
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/addcss.css" rel="stylesheet" type="text/css">
     <!-- 富文本编辑器 -->
     <script src="./js/wang.js"></script>
-</head>
 
+    <style type="text/css">
+        .footer{
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            padding: 0.3rem 0;
+            color:#9e9ea6;
+            height: 80px;
+        }
+    </style>
+
+    <script>
+        // 获取模型
+        var modal = document.getElementById('id01');
+
+        // 鼠标点击模型外区域关闭登录框
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        function windowHeight() {
+            var de = document.documentElement;
+            return self.innerHeight||(de && de.clientHeight)||document.body.clientHeight;
+        }
+        window.onload=window.onresize=function(){
+            var wh=windowHeight();
+            document.getElementById("xt-left").style.height = document.getElementById("xt-right").style.height = (wh-document.getElementById("xt-top").offsetHeight)+"px";
+        }
+    </script>
+
+    <script>
+
+        function jumpPage(index) {
+            location.href = "costs_show.html?currentPage=" + index;
+        }
+
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return decodeURI(pair[1]);
+                }
+            }
+            return (false);
+        }
+
+        /*function updateButten() {
+            debugger
+            var f = document.getElementById("updateSystem");
+            var sysName = $("#sysName").text();
+            var sysImg = $("#sysImg").val();
+            var pageLine = $("#pageLine").text();
+            var appId = $("#appId").text();
+            var appSecret = $("#appSecret").text();
+            var barName = $("#barName").text();
+            var fine = $("#fine").text();
+            $("#uSysName").val(sysName);
+            $("#uSysImg").val(sysImg);
+            $("#uPageLine").val(pageLine);
+            $("#uAppID").val(appId);
+            $("#uAppSecret").val(appSecret);
+            $("#uBarName").val(barName);
+            $("#uFine").val(fine);
+            f.style.display='block';
+        }*/
+
+        function updateButten() {
+            debugger
+            var f = document.getElementById("updateSystem");
+            var sysName = $("#sysName").text();
+            var pageLine = $("#pageLine").text();
+            var appId = $("#appId").text();
+            var appSecret = $("#appSecret").text();
+            var barName = $("#barName").text();
+            var fine = $("#fine").text();
+            $("#uSysName").val(sysName);
+            $("#uPageLine").val(pageLine);
+            $("#uAppID").val(appId);
+            $("#uAppSecret").val(appSecret);
+            $("#uBarName").val(barName);
+            $("#uFine").val(fine);
+            f.style.display='block';
+        }
+
+        function updateSystem() {
+            debugger
+            var sysName = $("#uSysName").val();
+            var pageLine = $("#uPageLine").val();
+            var appId = $(".uAppID").val();
+            var appSecret = $("#uAppSecret").val();
+            var barName = $(".uBarName").val();
+            var fine = $("#uFine").val();
+            var data = {
+                sysName : sysName,
+                pageLine: pageLine,
+                appId: appId,
+                appSecret: appSecret,
+                barName: barName,
+                fine: fine,
+            };
+            $.ajax({
+                type: "POST",
+                url: "/library/system/updateSystemNoImg/",
+                data:data,
+                success: function (data) {
+                    if (data.state == "SUCCESS") {
+                        alert(data.message);
+                        location.href = "web_baseset.html"
+                    } else {
+                        alert(data.message)
+                    }
+                }
+            });
+        }
+
+        /*function updateSystem() {
+            debugger
+            var sysName = $("#uSysName").val();
+            var sysImg = $("#uSysImg").val();
+            var pageLine = $("#uPageLine").val();
+            var appId = $(".uAppID").val();
+            var appSecret = $("#uAppSecret").val();
+            var barName = $(".uBarName").val();
+            var fine = $("#uFine").val();
+            var data = {
+                sysName : sysName,
+                sysImg: sysImg,
+                pageLine: pageLine,
+                appId: appId,
+                appSecret: appSecret,
+                barName: barName,
+                fine: fine,
+            };
+            $.ajax({
+                type: "POST",
+                url: "/library/system/updateSystem/",
+                data:data,
+                success: function (data) {
+                    if (data.state == "SUCCESS") {
+                        alert(data.message);
+                        location.href = "web_baseset.html"
+                    } else {
+                        alert(data.message)
+                    }
+                }
+            });
+        }*/
+
+        $(function () {
+            var currentPage = getQueryVariable("currentPage");
+            var pageSize = getQueryVariable("pageSize");
+            if (currentPage == false) {
+                currentPage = 1;
+            }
+            if (pageSize == false) {
+                pageSize = 5;
+            }
+            $.ajax({
+                type: "GET",
+                url: "/library/system/selectSystemList",
+                data: {
+                    currentPage: currentPage,
+                    pageSize: pageSize,
+                },
+                dataType: "JSON",
+                success: function (data) {
+                    $("#tbody").empty();
+                    $("#paging").empty();
+                    if (data.state == "SUCCESS") {
+                        $.each(data.data.list, function (index, value) {
+                            var $tr = $("<tr></tr>");
+                            $tr.append("<input id='sysId' name='sysId' type='hidden' value= '" + value.sysId + "' > ");
+                            $tr.append("<td id='sysName'>" + value.sysName + "</td>");
+                            $tr.append("<td id='sysImg'><img src='../../images/" + value.sysImg + "' width='100px'></td>");
+                            $tr.append("<td id='pageLine'>" + value.pageLine + "</td>");
+                            $tr.append("<td id='appid'>" + value.appid + "</td>");
+                            $tr.append("<td id='appsecret'>" + value.appsecret + "</td>");
+                            $tr.append("<td id='barName'>" + value.barName + "</td>");
+                            $tr.append("<td id='fine'>" + value.fine + "</td>");
+                            $tr.append("<td width='160px'>" +
+                                "<a href='#' class='btn btn-warning' onclick='updateButten()'>修改</a> "
+                                + "</td>");
+                            $("#tbody").append($tr);
+                        })
+
+                        //分页
+                        var $ul = $("<ul class='pagination pagination-lg'></ul>");
+                        if (data.data.currentPage < 2) {
+                            $ul.append("<li class='disabled'><a href='#'>&laquo;</a></li>");
+                        } else {
+                            $ul.append("<li><a href='#' onclick='jumpPage(" + (data.data.currentPage - 1) + ")'>&laquo;</a></li>");
+                        }
+                        for (var i = 0; i < data.data.totalPage; i++) {
+                            if (data.data.currentPage == 1 && i < 1) {
+                                $ul.append("<li class='disabled active'><a href='#' onclick='jumpPage(" + (i + 1) + ")'>" + (i + 1) + "</a></li>");
+                            } else if (i == (data.data.totalPage - 1) && data.data.currentPage == data.data.totalPage) {
+                                $ul.append("<li class='disabled active'><a href='#' onclick='jumpPage(" + (i + 1) + ")'>" + (i + 1) + "</a></li>");
+                            } else {
+                                if (i == (data.data.currentPage - 1)) {
+                                    $ul.append("<li class='active'><a href='#' onclick='jumpPage(" + (i + 1) + ")'>" + (i + 1) + "</a></li>");
+                                } else {
+                                    $ul.append("<li><a href='#' onclick='jumpPage(" + (i + 1) + ")'>" + (i + 1) + "</a></li>");
+                                }
+                            }
+                        }
+                        if (data.data.currentPage >= data.data.totalPage) {
+                            $ul.append("<li class='disabled'><a href='#'>&raquo;</a></li>");
+                        } else {
+                            $ul.append("<li><a href='#' onclick='jumpPage(" + (data.data.currentPage + 1) + ")' >&raquo;</a></li>");
+                        }
+                        $("#paging").append($ul);
+                    } else {
+                        alert("未知错误");
+                    }
+                }
+            })
+        });
+
+    </script>
+</head>
 <body>
-    <div class="rbody" id="app">
+    <div class="rbody container" id="app">
         <div class="top">
             当前位置：后台<i class="fa fa-fw fa-angle-right"></i>基础设置
         </div>
         <div class="main">
-            <div class="tabList">
-                <span class="active">基础设置</span>
+            <div class="imglists">
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            系统名字
+                        </th>
+
+                        <th>
+                            系统图片
+                        </th>
+                        <th>
+                            每页显示行数
+                        </th>
+                        <th>
+                            AppID
+                        </th>
+                        <th>
+                            系统设置id
+                        </th>
+                        <th>
+                            条形码前缀
+                        </th>
+                        <th>
+                            罚款金额
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
             </div>
-            <div class="tbodyList">
-                <div class="tabBody tactive">
-                    <!-- <p class="tip mrb10">常规设置</p> -->
-                    <div class="twoBox">
-                        <div class="leftbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must">*</em>
-                                    <span class="ios-tip-name">网站名称：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input type="text" class="ios-input" placeholder="请输入">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rightbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must">*</em>
-                                    <span class="ios-tip-name">网站网址：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input type="text" class="ios-input" placeholder="请输入">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="twoBox">
-                        <div class="leftbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must"></em>
-                                    <span class="ios-tip-name">备案号码：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input type="text" class="ios-input" placeholder="请输入">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rightbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must"></em>
-                                    <span class="ios-tip-name">版权声明：</span>
-                                </div>
-                                <div class="ios-input-box">
-                                    <input type="text" class="ios-input" placeholder="请输入">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 结束符 -->
-                    <div class="twoBox">
-                        <div class="leftbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must">*</em>
-                                    <span class="ios-tip-name">网站状态：</span>
-                                </div>
-                                <div class="ios-radio-box">
-                                    <label class="ios-radio-box-label">
-                                        <input type="radio" name="radio" class="ios-radio">
-                                        <span class="ios-radio-span">开启</span>
-                                    </label>
-                                    <label class="ios-radio-box-label">
-                                        <input type="radio" name="radio" class="ios-radio">
-                                        <span class="ios-radio-span">关闭</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rightbox">
-                            <div class="ios-form-group">
-                                <div class="ios-title">
-                                    <em class="ios-tip-must">*</em>
-                                    <span class="ios-tip-name">会员状态：</span>
-                                </div>
-                                <div class="ios-radio-box">
-                                    <label class="ios-radio-box-label">
-                                        <input type="radio" name="radio" class="ios-radio">
-                                        <span class="ios-radio-span">开启注册</span>
-                                    </label>
-                                    <label class="ios-radio-box-label">
-                                        <input type="radio" name="radio" class="ios-radio">
-                                        <span class="ios-radio-span">关闭注册</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ios-form-group mrb10">
-                        <div class="ios-title">
-                            <em class="ios-tip-must">*</em>
-                            <span class="ios-tip-name">网站LOGO：</span>
-                        </div>
-                        <div class="ios-upload-box">
-                            <div class="ios-upload-btn">
-                                <label class="ios-upload-label">
-                                    <input type="file">
-                                    <span> <i class="fa fa-fw fa-upload"></i> 上传图片</span>
-                                </label>
-                            </div>
-                            <div class="ios-upload-show">
-                                <div class="ios-upload-show-image">
-                                    <p>暂未上传图片</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ios-form-group mrb10">
-                        <div class="ios-title">
-                            <em class="ios-tip-must">*</em>
-                            <span class="ios-tip-name">网站二维码：</span>
-                        </div>
-                        <div class="ios-upload-box">
-                            <div class="ios-upload-btn">
-                                <label class="ios-upload-label">
-                                    <input type="file">
-                                    <span> <i class="fa fa-fw fa-upload"></i> 上传图片</span>
-                                </label>
-                            </div>
-                            <div class="ios-upload-show">
-                                <div class="ios-upload-show-image">
-                                    <p>暂未上传图片</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ios-form-group">
-                        <div class="ios-title">
-                            <em class="ios-tip-must">*</em>
-                            <span class="ios-tip-name">统计代码：</span>
-                        </div>
-                        <div class="ios-textarea-box">
-                            <textarea class="ios-textarea"></textarea>
-                        </div>
-                    </div>
+            <div class="footer">
+                <div id="paging" class="text-center">
                 </div>
-            </div>
-            <div>
-                <span class="ios-button ios-button-blue ios-button-2x">保存发布</span>
             </div>
         </div>
     </div>
+
+    <div id="updateSystem" class="hmodal">
+        <div style="width: 40%;margin: 0px auto;border: 1px;position: absolute;left: 30%;">
+            <form id="updateForm" class="modal-content animate" action="/library/system/updateSystem" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('updateSystem').style.display='none'" class="close" title="Close Modal">&times;</span>
+                </div>
+                <h1 style="margin-left: 40px;margin-top: 10px;color: #66ccff">修改</h1>
+                <div class="container" style="width: 170px;margin: 0 auto;">
+                    <div class="form-group">
+                        <label>系统名称</label>
+                        <input class="form-control" type="text" id="uSysName" name="sysName" placeholder="系统名称"><br/>
+                    </div>
+                    <div class="form-group">
+                        <label>系统图标:</label><br/>
+                        <input id="uSysImg" type="file" name="sysImg" class="fa-cloud-upload"><br/>
+                        <img src="#" alt="" id="SysImgShow">
+                        <span><i class="fa fa-fw fa-upload"></i>上传图片</span>
+                    </div>
+                    <div class="form-group">
+                        <label>每页显示行数:</label>
+                        <input class="form-control" type="text" id="uPageLine" name="PageLine" placeholder="每页显示行数"><br/>
+                    </div>
+                    <div class="form-group">
+                        <label>AppID:</label><br/>
+                        <input class="form-control" type="text" id="uAppID" name="AppID" placeholder="AppID"><br/>
+                    </div>
+                    <div class="form-group">
+                        <label>系统设置id</label><br/>
+                        <input type="text" id="uAppSecret" name="AppSecret" class="form-control" placeholder="系统设置id">
+                    </div>
+                    <div class="form-group">
+                        <label>条形码前缀</label><br/>
+                        <input type="text" id="uBarName" name="BarName" class="form-control" placeholder="条形码前缀">
+                    </div>
+                    <div class="form-group">
+                        <label>罚款金额</label><br/>
+                        <input type="text" id="uFine" name="Fine" class="form-control" placeholder="罚款金额">
+                    </div>
+                    <button id="updateButton" type="button" onclick="updateSystem()"  style="border-radius:8px;" class="btn btn-info" >修改</button>&nbsp&nbsp&nbsp&nbsp
+                    <button type="button" style="border-radius:8px;" onclick="document.getElementById('updateSystem').style.display='none'" class="btn btn-danger" >取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script src="./js/common.js"></script>
-     <!-- 有需要静态页面代写 或者 设计网站页面的 加 QQ：951252660 -->
 </body>
 
 </html>
